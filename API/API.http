@@ -1,0 +1,13 @@
+﻿@API_HostAddress = https://localhost:32775
+
+POST {{API_HostAddress}}/Taskitems
+Content-Type: application/json
+
+{
+  "name":"Walk dog",
+  "status":0
+}
+###
+
+GET {{API_HostAddress}}/Taskitems
+###
