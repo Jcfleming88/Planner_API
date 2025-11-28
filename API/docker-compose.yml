@@ -9,28 +9,4 @@ services:
     platform: linux/amd64
     ports:
       - "8080:8080"
-    depends_on:
-      - sqlserver
-    environment:
-      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=PlannerDb;User Id=sa;Password=Oq}_4SRPF1W5L-Ei0OktG;TrustServerCertificate=True;
     restart: unless-stopped
-
-  sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    platform: linux/amd64
-    environment:
-      SA_PASSWORD: "Oq}_4SRPF1W5L-Ei0OktG"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
-    volumes:
-      - mssqldata:/var/opt/mssql
-    healthcheck:
-      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"$${SA_PASSWORD}\" -Q \"SELECT 1\" > /dev/null 2>&1 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 12
-    restart: unless-stopped
-
-volumes:
-  mssqldata:
