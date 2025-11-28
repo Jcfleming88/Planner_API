@@ -3,8 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Modules
 {
-    class PlannerTaskDb(DbContextOptions<PlannerTaskDb> options) : DbContext(options)
+    public class PlannerTaskDb : DbContext
     {
-        public DbSet<PlannerTask> PlannerTask => Set<PlannerTask>();
+        public PlannerTaskDb(DbContextOptions<PlannerTaskDb> options) : base(options)
+        {
+        }
+
+        public DbSet<PlannerTask> PlannerTask { get; set; } = null!;
     }
 }
