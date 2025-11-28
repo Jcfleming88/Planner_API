@@ -7,8 +7,7 @@ Content-Type: application/json
   "name":"Walk dog",
   "status":0
 }
-
 ###
-GET {{API_HostAddress}}/Taskitems
 
+GET {{API_HostAddress}}/Taskitems
 ###

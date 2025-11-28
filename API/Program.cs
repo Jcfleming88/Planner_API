@@ -4,7 +4,8 @@ using Modules;
 using API;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<PlannerTaskDb>(opt => opt.UseInMemoryDatabase("Planner"));
+var connectionString = builder.Configuration.GetConnectionString("PlannerDb") ?? "Data Source=PlannerDb.db";
+builder.Services.AddSqlite<PlannerTaskDb>(connectionString);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 var app = builder.Build();
 
