@@ -21,8 +21,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Modules\Projects\" />
-  </ItemGroup>
-
 </Project>
