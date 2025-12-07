@@ -36,7 +36,7 @@ namespace Modules
         /// <summary>
         /// The user who created the task.
         /// </summary>
-        public string CreatedBy { get; set; }
+        public string Owner { get; set; }
 
         /// <summary>
         /// The planned start date. Nullable DateTime allows for 'null'.
@@ -86,7 +86,7 @@ namespace Modules
                 int projectId = 0, 
                 string name = "", 
                 string category = "", 
-                string createdBy= "", 
+                string owner= "", 
                 DateTime? start = null, 
                 DateTime? end = null, 
                 int urgency = 0, 
@@ -101,7 +101,7 @@ namespace Modules
             this.ProjectId = projectId;
             this.Name = name;
             this.Category = category;
-            this.CreatedBy = createdBy;
+            this.Owner = owner;
             this.Start = start;
             this.End = end;
             this.Urgency = urgency;
