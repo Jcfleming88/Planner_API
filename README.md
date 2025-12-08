@@ -16,3 +16,8 @@ Authentication will be handled through [Auth0](https://auth0.com/) to secure the
 ## Encryption
 
 User data such as the names and e-mails of people will be stored locally to simplify getting lists when assigning people to projects and tasks. To keep this information safe, names and emails will use symmetric encryption when storing it in the database and the user Id will be hashed as a precaution in case 3rd party ID's could be used for something else.
+
+## Packages
+
+*[OpenAPI](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-10.0&tabs=visual-studio%2Cvisual-studio-code)* - For creating API docs
+*[Scalar](https://scalar.com/)* - For making the docs readable!
