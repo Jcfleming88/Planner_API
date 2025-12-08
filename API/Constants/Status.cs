@@ -1,4 +1,4 @@
-﻿namespace API.Constants
+﻿namespace Constants
 {
     public enum Status
     {

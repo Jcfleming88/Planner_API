@@ -8,7 +8,7 @@ namespace API
     /// </summary>
     /// <remarks>
     /// Methods on this static class are intended to be used as minimal API endpoints.
-    /// Each method interacts with the provided <c>PlannerTaskDb</c> to perform database operations
+    /// Each method interacts with the provided <c>PlannerDb</c> to perform database operations
     /// and returns an <c>IResult</c> representing the appropriate HTTP response.
     /// </remarks>
     public class PlannerTaskAPI
@@ -20,7 +20,7 @@ namespace API
         /// <returns>
         /// An <see cref="IResult"/> containing HTTP 200 (OK) with a collection of all planner tasks.
         /// </returns>
-        public static async Task<IResult> GetAllTasks(PlannerTaskDb db) 
+        public static async Task<IResult> GetAllTasks(PlannerDb db) 
         {
             return TypedResults.Ok(await db.PlannerTask.ToListAsync());
         }
@@ -34,7 +34,7 @@ namespace API
         /// An <see cref="IResult"/> containing HTTP 200 (OK) with a collection of tasks for the given project.
         /// If no tasks exist for the project, an empty collection is returned.
         /// </returns>
-        public static async Task<IResult> GetTasksByProjectId(int projectId, PlannerTaskDb db)
+        public static async Task<IResult> GetTasksByProjectId(int projectId, PlannerDb db)
         {
             var tasks = await db.PlannerTask
                 .Where(t => t.ProjectId == projectId)
@@ -51,7 +51,7 @@ namespace API
         /// An <see cref="IResult"/> that is HTTP 200 (OK) with the <c>PlannerTask</c> if found,
         /// or HTTP 404 (NotFound) if no task with the specified id exists.
         /// </returns>
-        public static async Task<IResult> GetTaskById(int id, PlannerTaskDb db)
+        public static async Task<IResult> GetTaskById(int id, PlannerDb db)
         {
             return await db.PlannerTask.FindAsync(id)
                 is PlannerTask plannerTask
@@ -68,7 +68,7 @@ namespace API
         /// An <see cref="IResult"/> that is HTTP 201 (Created) with the created <c>PlannerTaskDTO</c>
         /// and a Location header pointing to the created resource.
         /// </returns>
-        public static async Task<IResult> CreateTask(PlannerTaskDTO plannerTaskDTO, PlannerTaskDb db)
+        public static async Task<IResult> CreateTask(PlannerTaskDTO plannerTaskDTO, PlannerDb db)
         {
             var plannerTask = new PlannerTask
             {
@@ -94,7 +94,7 @@ namespace API
         /// An <see cref="IResult"/> that is HTTP 204 (NoContent) when the update succeeds,
         /// or HTTP 404 (NotFound) if the task does not exist.
         /// </returns>
-        public static async Task<IResult> UpdateTask(int id, PlannerTask inputTask, PlannerTaskDb db)
+        public static async Task<IResult> UpdateTask(int id, PlannerTask inputTask, PlannerDb db)
         {
             var task = await db.PlannerTask.FindAsync(id);
             if (task is null) return TypedResults.NotFound();
@@ -112,7 +112,7 @@ namespace API
         /// An <see cref="IResult"/> that is HTTP 204 (NoContent) when deletion succeeds,
         /// or HTTP 404 (NotFound) if no task with the specified id exists.
         /// </returns>
-        public static async Task<IResult> DeleteTask(int id, PlannerTaskDb db)
+        public static async Task<IResult> DeleteTask(int id, PlannerDb db)
         {
             if (await db.PlannerTask.FindAsync(id) is PlannerTask plannerTask)
             {

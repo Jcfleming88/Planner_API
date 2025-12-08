@@ -1,11 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using Modules;
 using API;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PlannerDb") ?? "Data Source=PlannerDb.db";
-builder.Services.AddSqlite<PlannerTaskDb>(connectionString);
+builder.Services.AddSqlite<PlannerDb>(connectionString);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
@@ -37,6 +36,33 @@ projectItems.MapGet("/{id}", ProjectAPI.GetProjectById);
 projectItems.MapPost("/", ProjectAPI.CreateProject);
 projectItems.MapPut("/{id}", ProjectAPI.UpdateProject);
 projectItems.MapDelete("/{id}", ProjectAPI.DeleteProject);
+#endregion
+
+#region Users
+var userItems = app.MapGroup("/Users");
+
+userItems.MapGet("/", UserAPI.GetAllUsers);
+userItems.MapGet("/{id}", UserAPI.GetUserById);
+userItems.MapPost("/", UserAPI.CreateUser);
+userItems.MapPut("/{id}", UserAPI.UpdateUser);
+userItems.MapDelete("/{id}", UserAPI.DeleteUser);
+#endregion
+
+#region Project Users
+var projectUserItems = app.MapGroup("/ProjectUsers");
+
+projectUserItems.MapGet("/{id}", ProjectUserAPI.GetProjectUsers);
+projectUserItems.MapPost("/", ProjectUserAPI.CreateProjectUser);
+projectUserItems.MapPut("/{id}", ProjectUserAPI.UpdateProjectUserRole);
+projectUserItems.MapDelete("/{id}", ProjectUserAPI.DeleteProjectUser);
+#endregion
+
+#region Task Assignees
+var taskAssigneeItems = app.MapGroup("/TaskAssignees");
+
+taskAssigneeItems.MapGet("/{id}", TaskAssigneeAPI.GetTaskAssignees);
+taskAssigneeItems.MapPost("/", TaskAssigneeAPI.AddTaskAssignee);
+taskAssigneeItems.MapDelete("/{id}", TaskAssigneeAPI.DeleteTaskAssignee);
 #endregion
 
 app.Run();

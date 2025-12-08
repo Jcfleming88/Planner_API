@@ -1,27 +1,35 @@
-﻿using System.Net.NetworkInformation;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Modules
 {
     /// <summary>
     /// Tasks are used to define particular work items within a project.
     /// </summary>
+    [Table("tasks")]
     public class PlannerTask
     {
+        #region Primary Key
         /// <summary>
         /// Unique identifier for the task. Nullable int allows for the 'null' default.
         /// </summary>
-        public int? Id { get; set; }
+        [Key]
+        public int Id { get; set; }
+        #endregion
 
+        #region Foreign Key
+        /// <summary>
+        /// ID of the project the task belongs to.
+        /// </summary>
+        [Required]
+        public int ProjectId { get; set; }
+        #endregion
+
+        #region Properties
         /// <summary>
         /// ID of a parent task.
         /// </summary>
         public int? ParentId { get; set; }
-
-        /// <summary>
-        /// ID of the project the task belongs to.
-        /// </summary>
-        public int ProjectId { get; set; }
 
         /// <summary>
         /// The name or title of the task.
@@ -67,21 +75,21 @@ namespace Modules
         public DateTime? BecomesUrgent { get; set; }
 
         /// <summary>
-        /// Array of users assigned to the task. Using List of strings for flexibility.
-        /// Initializing with one empty string
-        /// </summary>
-        public List<string> AssignedTo { get; set; }
-
-        /// <summary>
         /// The task status (e.g., 0: Pending).
         /// </summary>
         public int Status { get; set; }
+        #endregion
+
+        #region Navigation Property
+        public Project? Project { get; set; }
+        public List<TaskAssignee> TaskAssignees { get; set; } = new List<TaskAssignee>();
+        #endregion
 
         /// <summary>
         /// C# Default Constructor creating a blank task.
         /// </summary>
         public PlannerTask(
-                int? id = null, 
+                int id = 0, 
                 int? parentId = null, 
                 int projectId = 0, 
                 string name = "", 
@@ -91,8 +99,7 @@ namespace Modules
                 DateTime? end = null, 
                 int urgency = 0, 
                 bool automateUrgency = false,
-                DateTime? becomesUrgent = null, 
-                List<string>? assignedTo = null, 
+                DateTime? becomesUrgent = null,
                 int status = 0
             )
         {
@@ -116,7 +123,6 @@ namespace Modules
                 BecomesUrgent = becomesUrgent ?? null;
             }
 
-            this.AssignedTo = assignedTo ?? new List<string>();
             this.Status = status;
         }
     }
