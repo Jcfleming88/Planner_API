@@ -1,13 +1,24 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.OpenApi;
+using Scalar.AspNetCore;
 using Modules;
 using API;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PlannerDb") ?? "Data Source=PlannerDb.db";
+
 builder.Services.AddSqlite<PlannerDb>(connectionString);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
+app.MapOpenApi();
+app.MapScalarApiReference("/docs", options =>
+{
+    // Optional: Customize the title and layout
+    options.Title = "My API Reference";
+    options.Layout = ScalarLayout.Classic;
+});
 
 #region Ping
 // Basic response to get a ping back from the API
