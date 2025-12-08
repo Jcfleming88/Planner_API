@@ -20,4 +20,5 @@ User data such as the names and e-mails of people will be stored locally to simp
 ## Packages
 
 *[OpenAPI](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/openapi/aspnetcore-openapi?view=aspnetcore-10.0&tabs=visual-studio%2Cvisual-studio-code)* - For creating API docs
+
 *[Scalar](https://scalar.com/)* - For making the docs readable!
