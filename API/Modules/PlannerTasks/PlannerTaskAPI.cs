@@ -20,6 +20,7 @@ namespace API
         /// <returns>
         /// An <see cref="IResult"/> containing HTTP 200 (OK) with a collection of all planner tasks.
         /// </returns>
+        /// <response code="200">Returns all planner tasks.</response>
         public static async Task<IResult> GetAllTasks(PlannerDb db) 
         {
             return TypedResults.Ok(await db.PlannerTask.ToListAsync());

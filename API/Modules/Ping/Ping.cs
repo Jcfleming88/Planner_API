@@ -3,19 +3,16 @@
     /// <summary>
     /// A simple Ping class for testing purposes.
     /// </summary>
-    public class Ping
+    public class PingPong
     {
         /// <summary>
         /// Default reply property.
         /// </summary>
-        public string Hello { get; set; } = "world";
+        public string Ping { get; set; } = "pong";
 
         /// <summary>
         /// C# Default Constructor creating a ping.
         /// </summary>
-        public Ping()
-        {
-
-        }
+        public PingPong() { }
     }
 }

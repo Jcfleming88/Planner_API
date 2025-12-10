@@ -1,0 +1,358 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API</name>
+    </assembly>
+    <members>
+        <member name="T:API.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.Migrations.Relationships">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Migrations.Relationships.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Migrations.Relationships.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:API.Migrations.Relationships.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:API.PingAPI">
+            <summary>
+            A simple ping response class used to test the connection to the API.
+            </summary>
+        </member>
+        <member name="M:API.PingAPI.Ping">
+            <summary>
+            Simply returns a Ping object to confirm the API is reachable.
+            </summary>
+            <returns>
+            Returns a Ping object.
+            </returns>
+            <response code="200">Returns a Ping object.</response>
+        </member>
+        <member name="T:API.PlannerTaskAPI">
+            <summary>
+            Provides HTTP API handlers for CRUD operations on planner tasks.
+            </summary>
+            <remarks>
+            Methods on this static class are intended to be used as minimal API endpoints.
+            Each method interacts with the provided <c>PlannerDb</c> to perform database operations
+            and returns an <c>IResult</c> representing the appropriate HTTP response.
+            </remarks>
+        </member>
+        <member name="M:API.PlannerTaskAPI.GetAllTasks(Modules.PlannerDb)">
+            <summary>
+            Retrieves all planner tasks from the database.
+            </summary>
+            <param name="db">The database context used to access planner tasks (injected).</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> containing HTTP 200 (OK) with a collection of all planner tasks.
+            </returns>
+            <response code="200">Returns all planner tasks.</response>
+        </member>
+        <member name="M:API.PlannerTaskAPI.GetTasksByProjectId(System.Int32,Modules.PlannerDb)">
+            <summary>
+            Retrieves planner tasks that belong to the specified project.
+            </summary>
+            <param name="projectId">The identifier of the project whose tasks should be returned.</param>
+            <param name="db">The database context used to query planner tasks (injected).</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> containing HTTP 200 (OK) with a collection of tasks for the given project.
+            If no tasks exist for the project, an empty collection is returned.
+            </returns>
+        </member>
+        <member name="M:API.PlannerTaskAPI.GetTaskById(System.Int32,Modules.PlannerDb)">
+            <summary>
+            Retrieves a single planner task by its identifier.
+            </summary>
+            <param name="id">The identifier of the planner task to retrieve.</param>
+            <param name="db">The database context used to find the planner task (injected).</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is HTTP 200 (OK) with the <c>PlannerTask</c> if found,
+            or HTTP 404 (NotFound) if no task with the specified id exists.
+            </returns>
+        </member>
+        <member name="M:API.PlannerTaskAPI.CreateTask(Modules.PlannerTaskDTO,Modules.PlannerDb)">
+            <summary>
+            Creates a new planner task from the provided DTO and persists it to the database.
+            </summary>
+            <param name="plannerTaskDTO">The DTO containing data for the new planner task.</param>
+            <param name="db">The database context used to add and save the new task (injected).</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is HTTP 201 (Created) with the created <c>PlannerTaskDTO</c>
+            and a Location header pointing to the created resource.
+            </returns>
+        </member>
+        <member name="M:API.PlannerTaskAPI.UpdateTask(System.Int32,Modules.PlannerTask,Modules.PlannerDb)">
+            <summary>
+            Updates an existing planner task with the provided input.
+            </summary>
+            <param name="id">The identifier of the task to update.</param>
+            <param name="inputTask">The task data to apply to the existing task.</param>
+            <param name="db">The database context used to find and save the task (injected).</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is HTTP 204 (NoContent) when the update succeeds,
+            or HTTP 404 (NotFound) if the task does not exist.
+            </returns>
+        </member>
+        <member name="M:API.PlannerTaskAPI.DeleteTask(System.Int32,Modules.PlannerDb)">
+            <summary>
+            Deletes a planner task by its identifier.
+            </summary>
+            <param name="id">The identifier of the planner task to delete.</param>
+            <param name="db">The database context used to remove and save changes (injected).</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is HTTP 204 (NoContent) when deletion succeeds,
+            or HTTP 404 (NotFound) if no task with the specified id exists.
+            </returns>
+        </member>
+        <member name="T:API.ProjectAPI">
+            <summary>
+            Provides HTTP endpoint implementations for CRUD operations on <see cref="T:Modules.Project"/> entities.
+            </summary>
+            <remarks>
+            All members are implemented as static asynchronous methods and require a <see cref="T:Modules.PlannerDb"/>
+            instance for database access. Methods return <see cref="T:Microsoft.AspNetCore.Http.IResult"/> values representing HTTP responses.
+            </remarks>
+        </member>
+        <member name="M:API.ProjectAPI.GetAllProjects(Modules.PlannerDb)">
+            <summary>
+            Retrieves all projects from the database.
+            </summary>
+            <param name="db">The <see cref="T:Modules.PlannerDb"/> database context used to query projects.</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> containing an HTTP 200 (OK) response with the list of <see cref="T:Modules.Project"/> entities.
+            </returns>
+        </member>
+        <member name="M:API.ProjectAPI.GetProjectById(System.Int32,Modules.PlannerDb)">
+            <summary>
+            Retrieves a single project by its identifier.
+            </summary>
+            <param name="id">The identifier of the project to retrieve.</param>
+            <param name="db">The <see cref="T:Modules.PlannerDb"/> database context used to query the project.</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is:
+            - HTTP 200 (OK) with the <see cref="T:Modules.Project"/> when found;
+            - HTTP 404 (NotFound) when no project with the specified id exists.
+            </returns>
+        </member>
+        <member name="M:API.ProjectAPI.CreateProject(Modules.ProjectDTO,Modules.PlannerDb)">
+            <summary>
+            Creates a new project from the provided <see cref="T:Modules.ProjectDTO"/> and persists it to the database.
+            </summary>
+            <param name="projectDTO">The data transfer object containing project properties to create.</param>
+            <param name="db">The <see cref="T:Modules.PlannerDb"/> database context used to add the new project.</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is HTTP 201 (Created) with the created <see cref="T:Modules.ProjectDTO"/>.
+            The Location header references the created resource.
+            </returns>
+        </member>
+        <member name="M:API.ProjectAPI.UpdateProject(System.Int32,Modules.Project,Modules.PlannerDb)">
+            <summary>
+            Updates an existing project identified by <paramref name="id"/> with values from <paramref name="inputProject"/>.
+            </summary>
+            <param name="id">The identifier of the project to update.</param>
+            <param name="inputProject">The <see cref="T:Modules.Project"/> containing updated values.</param>
+            <param name="db">The <see cref="T:Modules.PlannerDb"/> database context used to find and save the project.</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is:
+            - HTTP 204 (NoContent) when the update succeeds;
+            - HTTP 404 (NotFound) when no project with the specified id exists.
+            </returns>
+        </member>
+        <member name="M:API.ProjectAPI.DeleteProject(System.Int32,Modules.PlannerDb)">
+            <summary>
+            Deletes the project with the specified identifier from the database.
+            </summary>
+            <param name="id">The identifier of the project to delete.</param>
+            <param name="db">The <see cref="T:Modules.PlannerDb"/> database context used to find and remove the project.</param>
+            <returns>
+            An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is:
+            - HTTP 204 (NoContent) when the deletion succeeds;
+            - HTTP 404 (NotFound) when no project with the specified id exists.
+            </returns>
+        </member>
+        <member name="T:Modules.PingPong">
+            <summary>
+            A simple Ping class for testing purposes.
+            </summary>
+        </member>
+        <member name="P:Modules.PingPong.Ping">
+            <summary>
+            Default reply property.
+            </summary>
+        </member>
+        <member name="M:Modules.PingPong.#ctor">
+            <summary>
+            C# Default Constructor creating a ping.
+            </summary>
+        </member>
+        <member name="T:Modules.PlannerTask">
+            <summary>
+            Tasks are used to define particular work items within a project.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.Id">
+            <summary>
+            Unique identifier for the task. Nullable int allows for the 'null' default.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.ProjectId">
+            <summary>
+            ID of the project the task belongs to.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.ParentId">
+            <summary>
+            ID of a parent task.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.Name">
+            <summary>
+            The name or title of the task.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.Category">
+            <summary>
+            The task category. Nullable string allows for 'null'.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.Owner">
+            <summary>
+            The user who created the task.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.Start">
+            <summary>
+            The planned start date. Nullable DateTime allows for 'null'.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.End">
+            <summary>
+            The planned end/due date. Using DateTime.Today as a representative C# default 
+            for 'new Date()' without time component, or you could use DateTime.Now.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.Urgency">
+            <summary>
+            Manual urgency level (0-5).
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.AutomateUrgency">
+            <summary>
+            Flag for automated urgency calculation.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.BecomesUrgent">
+            <summary>
+            Date when urgency is triggered. Nullable DateTime allows for 'null'.
+            The complex logic from the JS constructor is typically handled 
+            outside the class definition or in a specific method in C#.
+            </summary>
+        </member>
+        <member name="P:Modules.PlannerTask.Status">
+            <summary>
+            The task status (e.g., 0: Pending).
+            </summary>
+        </member>
+        <member name="M:Modules.PlannerTask.#ctor(System.Int32,System.Nullable{System.Int32},System.Int32,System.String,System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.Int32,System.Boolean,System.Nullable{System.DateTime},System.Int32)">
+            <summary>
+            C# Default Constructor creating a blank task.
+            </summary>
+        </member>
+        <member name="T:Modules.Project">
+            <summary>
+            Represents a project with a unique identifier, name, description, and a collection of associated users.
+            </summary>
+            <remarks>Use the Project class to encapsulate information about a project, including its metadata and
+            the users linked to it. The Users property can store either usernames or user IDs, depending on application
+            requirements. When creating a new instance, you may omit the Id for new projects that have not yet been
+            persisted. All properties are mutable, allowing updates to project details after instantiation.</remarks>
+        </member>
+        <member name="P:Modules.Project.Id">
+            <summary>
+            The unique identifier for the project. Can be null for a new project.
+            </summary>
+        </member>
+        <member name="P:Modules.Project.Name">
+            <summary>
+            The name of the project.
+            </summary>
+        </member>
+        <member name="P:Modules.Project.Description">
+            <summary>
+            A brief description of the project.
+            </summary>
+        </member>
+        <member name="M:Modules.Project.#ctor(System.Int32,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Project class.
+            </summary>
+            <param name="id">The unique identifier for the project. Defaults to null.</param>
+            <param name="name">The name of the project. Defaults to an empty string.</param>
+            <param name="description">A brief description of the project. Defaults to an empty string.</param>
+            <param name="users">An array of usernames/IDs. Defaults to a new, empty list.</param>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type)">
+            <summary>
+            Generates a documentation comment ID for a type.
+            Example: T:Namespace.Outer+Inner`1 becomes T:Namespace.Outer.Inner`1
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.PropertyInfo)">
+            <summary>
+            Generates a documentation comment ID for a property.
+            Example: P:Namespace.ContainingType.PropertyName or for an indexer P:Namespace.ContainingType.Item(System.Int32)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Type,System.String)">
+            <summary>
+            Generates a documentation comment ID for a property given its container type and property name.
+            Example: P:Namespace.ContainingType.PropertyName
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.CreateDocumentationId(System.Reflection.MethodInfo)">
+            <summary>
+            Generates a documentation comment ID for a method (or constructor).
+            For example:
+              M:Namespace.ContainingType.MethodName(ParamType1,ParamType2)~ReturnType
+              M:Namespace.ContainingType.#ctor(ParamType)
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.GetTypeDocId(System.Type,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a documentation ID string for a type.
+            This method handles nested types (replacing '+' with '.'),
+            generic types, arrays, pointers, by-ref types, and generic parameters.
+            The <paramref name="includeGenericArguments"/> flag controls whether
+            constructed generic type arguments are emitted, while <paramref name="omitGenericArity"/>
+            controls whether the generic arity marker (e.g. "`1") is appended.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.OpenApi.Generated.DocumentationCommentIdHelper.NormalizeDocId(System.String)">
+            <summary>
+            Normalizes a documentation comment ID to match the compiler-style format.
+            Strips the return type suffix for ordinary methods but retains it for conversion operators.
+            </summary>
+            <param name="docId">The documentation comment ID to normalize.</param>
+            <returns>The normalized documentation comment ID.</returns>
+        </member>
+    </members>
+</doc>
