@@ -19,15 +19,15 @@ app.MapScalarApiReference("/docs", options =>
     options.Layout = ScalarLayout.Modern;
     options.HeadContent = """
         <div>
-        <style>
-            .custom-header {
-                background-color: #421AE5;
-                border-bottom: 5px solid #eaecee;
-                color: #eaecee;
-                font-family: Arial, Helvetica, sans-serif;
-                padding: 8px;
-                text-align: center;
-            }
+            <style>
+                .custom-header {
+                    background-color: #421AE5;
+                    border-bottom: 5px solid #eaecee;
+                    color: #eaecee;
+                    font-family: Arial, Helvetica, sans-serif;
+                    padding: 8px;
+                    text-align: center;
+                }
             </style>
             <div class="custom-header">
                 <h1>Planner API Docs</h1>
