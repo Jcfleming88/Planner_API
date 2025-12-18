@@ -9,12 +9,25 @@ namespace APITests
 {
     public partial class Tests
     {
-        public const string DatabaseName = "BookMethodsTestDb";
+        internal const string DatabaseName = "BookMethodsTestDb";
+        internal PlannerDb Context { get; set; }
 
         [SetUp]
         public void Setup()
         {
-            using var context = InMemoryDbFactory.CreateAndSeedContext(DatabaseName);
+            Context = InMemoryDbFactory.CreateAndSeedContext(DatabaseName);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Context?.Dispose();
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Context?.Dispose();
         }
     }
 }

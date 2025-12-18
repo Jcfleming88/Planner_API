@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Microsoft.AspNetCore.Http.HttpResults;
 using NUnit.Framework;
+
 using API;
 using Modules;
 
@@ -10,7 +12,8 @@ namespace APITests
     public partial class Tests
     {
         [Test]
-        public async Task Test1()
+        [Category("Ping")]
+        public async Task Ping()
         {
             var result = await PingAPI.Ping();
 

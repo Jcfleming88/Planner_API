@@ -22,7 +22,7 @@ namespace API
         /// </returns>
         public static async Task<IResult> GetAllProjects(PlannerDb db)
         {
-            return TypedResults.Ok(await db.Project.ToListAsync());
+            return TypedResults.Ok(await db.Project.ToListAsync() ?? new List<Project>());
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace API
         public static async Task<IResult> GetProjectById(int id, PlannerDb db)
         {
             return await db.Project.FindAsync(id)
-                is Project plannerTask
-                    ? TypedResults.Ok(plannerTask)
+                is Project project
+                    ? TypedResults.Ok(project)
                     : TypedResults.NotFound();
         }
 
