@@ -7,21 +7,22 @@ using Modules;
 
 namespace APITests
 {
-    public partial class Tests
+    public partial class ProjectsTests
     {
-        internal const string DatabaseName = "BookMethodsTestDb";
-        internal PlannerDb Context { get; set; }
+        internal PlannerDb Context { get; set; }      
+        private ProjectDTO? FirstProject { get; set; } = null;
 
-        [SetUp]
+        internal const string DatabaseName = "ProjectsDb";
+
+        private readonly ProjectDTO NewProject = new ProjectDTO(new Project(
+            name: "New Project",
+            description: "This is a new project."
+        ));
+
+        [OneTimeSetUp]
         public void Setup()
         {
             Context = InMemoryDbFactory.CreateAndSeedContext(DatabaseName);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            Context?.Dispose();
         }
 
         [OneTimeTearDown]
