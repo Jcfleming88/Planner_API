@@ -10,7 +10,7 @@ namespace API
             return TypedResults.Ok(await db.User.ToListAsync());
         }
 
-        public static async Task<IResult> GetUserById(int id, PlannerDb db)
+        public static async Task<IResult> GetUserById(string id, PlannerDb db)
         {
             return await db.User.FindAsync(id)
                 is User user
@@ -25,7 +25,7 @@ namespace API
             return TypedResults.Created($"/users/{user.Id}", user);
         }
 
-        public static async Task<IResult> DeleteUser(int id, PlannerDb db)
+        public static async Task<IResult> DeleteUser(string id, PlannerDb db)
         {
             var user = await db.User.FindAsync(id);
             if (user is null)
@@ -37,7 +37,7 @@ namespace API
             return TypedResults.NoContent();
         }
 
-        public static async Task<IResult> UpdateUser(int id, User inputUser, PlannerDb db)
+        public static async Task<IResult> UpdateUser(string id, User inputUser, PlannerDb db)
         {
             var user = await db.User.FindAsync(id);
             if (user is null) return TypedResults.NotFound();

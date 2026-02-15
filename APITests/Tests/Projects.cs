@@ -12,9 +12,7 @@ namespace APITests
 {
     public partial class ProjectsTests
     {
-        [Test]
-        [Category("Projects")]
-        [Order(1)]
+        [Test, Category("Projects"), Order(1)]
         public async Task CreateProject()
         {
             // Create a new project in the database
@@ -35,7 +33,6 @@ namespace APITests
             if (data == null)
             {
                 Assert.Fail("No project data was returned.");
-                return;
             }
             else
             {
@@ -47,9 +44,7 @@ namespace APITests
         }
 
 
-        [Test]
-        [Category("Projects")]
-        [Order(2)]
+        [Test, Category("Projects"), Order(2)]
         public async Task GetAllProjects()
         {
             // Get a list of all projects from the database
@@ -67,19 +62,20 @@ namespace APITests
             {
                 Assert.Fail("No list of projects were returned as part of this test.");
             }
-
-            // Check that there is at least one project in the list (the one we just created)
-            Assert.That(
-                (result as Ok<List<Project>>)?.Value.Count == 1,
-                "No pojects where found. There should be one project in the test database."
-                );
+            else
+            {
+                // Check that there is at least one project in the list (the one we just created)
+                Assert.That(
+                    (result as Ok<List<Project>>)?.Value!.Count,
+                    Is.EqualTo(1),
+                    "No pojects where found. There should be one project in the test database."
+                    );
+            }
 
             return;
         }
 
-        [Test]
-        [Category("Projects")]
-        [Order(3)]
+        [Test, Category("Projects"), Order(3)]
         public async Task GetProjectById()
         {
             // Check the first project is not null and skip the test if it was not saved in the earlier test
@@ -116,9 +112,7 @@ namespace APITests
             return;
         }
 
-        [Test]
-        [Category("Projects")]
-        [Order(4)]
+        [Test, Category("Projects"), Order(4)]
         public async Task UpdateProject()
         {
             // Check the first project is not null and skip the test if it was not saved in the earlier test
@@ -173,9 +167,7 @@ namespace APITests
             return;
         }
 
-        [Test]
-        [Category("Projects")]
-        [Order(5)]
+        [Test, Category("Projects"), Order(5)]
         public async Task DeleteProject()
         {
             // Check the first project is not null and skip the test if it was not saved in the earlier test

@@ -69,20 +69,14 @@ namespace API
         /// An <see cref="IResult"/> that is HTTP 201 (Created) with the created <c>PlannerTaskDTO</c>
         /// and a Location header pointing to the created resource.
         /// </returns>
-        public static async Task<IResult> CreateTask(PlannerTaskDTO plannerTaskDTO, PlannerDb db)
+        public static async Task<IResult> CreateTask(PlannerTask plannerTask, PlannerDb db)
         {
-            var plannerTask = new PlannerTask
-            {
-                Name = plannerTaskDTO.Name,
-                
-            };
-
             db.PlannerTask.Add(plannerTask);
             await db.SaveChangesAsync();
 
-            plannerTaskDTO = new PlannerTaskDTO(plannerTask);
+            var pt = new PlannerTaskDTO(plannerTask);
 
-            return TypedResults.Created($"/Taskitems/{plannerTaskDTO.Id}", plannerTaskDTO);
+            return TypedResults.Created($"/Taskitems/{plannerTask.Id}", pt);
         }
 
         /// <summary>

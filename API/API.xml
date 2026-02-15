@@ -84,7 +84,7 @@
             or HTTP 404 (NotFound) if no task with the specified id exists.
             </returns>
         </member>
-        <member name="M:API.PlannerTaskAPI.CreateTask(Modules.PlannerTaskDTO,Modules.PlannerDb)">
+        <member name="M:API.PlannerTaskAPI.CreateTask(Modules.PlannerTask,Modules.PlannerDb)">
             <summary>
             Creates a new planner task from the provided DTO and persists it to the database.
             </summary>
