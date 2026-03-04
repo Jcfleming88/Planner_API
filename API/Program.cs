@@ -1,7 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using Scalar.AspNetCore;
-using Modules;
 using API;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Modules;
+using Scalar.AspNetCore;
+using Auth0.AspNetCore.Authentication.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("PlannerDb") ?? "Data Source=PlannerDb.db";
@@ -9,8 +11,37 @@ var connectionString = builder.Configuration.GetConnectionString("PlannerDb") ??
 builder.Services.AddSqlite<PlannerDb>(connectionString);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddOpenApi();
+builder.Services.AddMvc();
+builder.Configuration.AddJsonFile("appsettings.json");
+builder.Services.AddAuth0ApiAuthentication(options =>
+{
+    options.Domain = builder.Configuration["Auth0:Domain"];
+    options.JwtBearerOptions = new JwtBearerOptions
+    {
+        Audience = builder.Configuration["Auth0:Audience"]
+    };
+});
+
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+//{
+//    // The Authority MUST match the "iss" in your JWT exactly
+//    options.Authority = "https://neonwolf.uk.auth0.com/";
+//    options.Audience = builder.Configuration["Auth0:Audience"];
+//});
 
 var app = builder.Build();
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+}
+
+app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapOpenApi();
 app.MapScalarApiReference("/docs", options =>
 {
@@ -48,7 +79,7 @@ app.MapGet("/", PingAPI.Ping);
 #region Tasks calls
 var taskItems = app.MapGroup("/Taskitems");
 
-taskItems.MapGet("/", PlannerTaskAPI.GetAllTasks);
+taskItems.MapGet("/", PlannerTaskAPI.GetAllTasks).RequireAuthorization();
 taskItems.MapGet("/project/{projectId}", PlannerTaskAPI.GetTasksByProjectId);
 taskItems.MapGet("/{id}", PlannerTaskAPI.GetTaskById);
 taskItems.MapPost("/", PlannerTaskAPI.CreateTask);
