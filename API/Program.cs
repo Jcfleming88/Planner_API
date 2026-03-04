@@ -80,48 +80,48 @@ app.MapGet("/", PingAPI.Ping);
 var taskItems = app.MapGroup("/Taskitems");
 
 taskItems.MapGet("/", PlannerTaskAPI.GetAllTasks).RequireAuthorization();
-taskItems.MapGet("/project/{projectId}", PlannerTaskAPI.GetTasksByProjectId);
-taskItems.MapGet("/{id}", PlannerTaskAPI.GetTaskById);
-taskItems.MapPost("/", PlannerTaskAPI.CreateTask);
-taskItems.MapPut("/{id}", PlannerTaskAPI.UpdateTask);
-taskItems.MapDelete("/{id}", PlannerTaskAPI.DeleteTask);
+taskItems.MapGet("/project/{projectId}", PlannerTaskAPI.GetTasksByProjectId).RequireAuthorization();
+taskItems.MapGet("/{id}", PlannerTaskAPI.GetTaskById).RequireAuthorization();
+taskItems.MapPost("/", PlannerTaskAPI.CreateTask).RequireAuthorization();
+taskItems.MapPut("/{id}", PlannerTaskAPI.UpdateTask).RequireAuthorization();
+taskItems.MapDelete("/{id}", PlannerTaskAPI.DeleteTask).RequireAuthorization();
 #endregion
 
 #region Project calls
 var projectItems = app.MapGroup("/Projects");
 
-projectItems.MapGet("/", ProjectAPI.GetAllProjects);
-projectItems.MapGet("/{id}", ProjectAPI.GetProjectById);
-projectItems.MapPost("/", ProjectAPI.CreateProject);
-projectItems.MapPut("/{id}", ProjectAPI.UpdateProject);
-projectItems.MapDelete("/{id}", ProjectAPI.DeleteProject);
+projectItems.MapGet("/", ProjectAPI.GetAllProjects).RequireAuthorization();
+projectItems.MapGet("/{id}", ProjectAPI.GetProjectById).RequireAuthorization();
+projectItems.MapPost("/", ProjectAPI.CreateProject).RequireAuthorization();
+projectItems.MapPut("/{id}", ProjectAPI.UpdateProject).RequireAuthorization();
+projectItems.MapDelete("/{id}", ProjectAPI.DeleteProject).RequireAuthorization();
 #endregion
 
 #region Users
 var userItems = app.MapGroup("/Users");
 
-userItems.MapGet("/", UserAPI.GetAllUsers);
-userItems.MapGet("/{id}", UserAPI.GetUserById);
-userItems.MapPost("/", UserAPI.CreateUser);
-userItems.MapPut("/{id}", UserAPI.UpdateUser);
-userItems.MapDelete("/{id}", UserAPI.DeleteUser);
+userItems.MapGet("/", UserAPI.GetAllUsers).RequireAuthorization();
+userItems.MapGet("/{id}", UserAPI.GetUserById).RequireAuthorization();
+userItems.MapPost("/", UserAPI.CreateUser).RequireAuthorization();
+userItems.MapPut("/{id}", UserAPI.UpdateUser).RequireAuthorization();
+userItems.MapDelete("/{id}", UserAPI.DeleteUser).RequireAuthorization();
 #endregion
 
 #region Project Users
 var projectUserItems = app.MapGroup("/ProjectUsers");
 
-projectUserItems.MapGet("/{id}", ProjectUserAPI.GetProjectUsers);
-projectUserItems.MapPost("/", ProjectUserAPI.CreateProjectUser);
-projectUserItems.MapPut("/{id}", ProjectUserAPI.UpdateProjectUserRole);
-projectUserItems.MapDelete("/{id}", ProjectUserAPI.DeleteProjectUser);
+projectUserItems.MapGet("/{id}", ProjectUserAPI.GetProjectUsers).RequireAuthorization();
+projectUserItems.MapPost("/", ProjectUserAPI.CreateProjectUser).RequireAuthorization();
+projectUserItems.MapPut("/{id}", ProjectUserAPI.UpdateProjectUserRole).RequireAuthorization();
+projectUserItems.MapDelete("/{id}", ProjectUserAPI.DeleteProjectUser).RequireAuthorization();
 #endregion
 
 #region Task Assignees
 var taskAssigneeItems = app.MapGroup("/TaskAssignees");
 
-taskAssigneeItems.MapGet("/{id}", TaskAssigneeAPI.GetTaskAssignees);
-taskAssigneeItems.MapPost("/", TaskAssigneeAPI.AddTaskAssignee);
-taskAssigneeItems.MapDelete("/{id}", TaskAssigneeAPI.DeleteTaskAssignee);
+taskAssigneeItems.MapGet("/{id}", TaskAssigneeAPI.GetTaskAssignees).RequireAuthorization();
+taskAssigneeItems.MapPost("/", TaskAssigneeAPI.AddTaskAssignee).RequireAuthorization();
+taskAssigneeItems.MapDelete("/{id}", TaskAssigneeAPI.DeleteTaskAssignee).RequireAuthorization();
 #endregion
 
 app.Run();
