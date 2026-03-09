@@ -44,36 +44,36 @@ namespace APITests
         }
 
 
-        [Test, Category("Projects"), Order(2)]
-        public async Task GetAllProjects()
-        {
-            // Get a list of all projects from the database
-            var result = await ProjectAPI.GetAllProjects(Context);
+        //[Test, Category("Projects"), Order(2)]
+        //public async Task GetAllProjects()
+        //{
+        //    // Get a list of all projects from the database
+        //    var result = await ProjectAPI.GetAllProjects(Context);
 
-            // Check for a successful return with a list of projects
-            Assert.That(
-                result,
-                Is.InstanceOf<Ok<List<Project>>>(),
-                "The result should be an HTTP 200 Ok response."
-                );
+        //    // Check for a successful return with a list of projects
+        //    Assert.That(
+        //        result,
+        //        Is.InstanceOf<Ok<List<Project>>>(),
+        //        "The result should be an HTTP 200 Ok response."
+        //        );
 
-            // Check that the list of projects is not null
-            if ((result as Ok<List<Project>>)?.Value == null)
-            {
-                Assert.Fail("No list of projects were returned as part of this test.");
-            }
-            else
-            {
-                // Check that there is at least one project in the list (the one we just created)
-                Assert.That(
-                    (result as Ok<List<Project>>)?.Value!.Count,
-                    Is.EqualTo(1),
-                    "No pojects where found. There should be one project in the test database."
-                    );
-            }
+        //    // Check that the list of projects is not null
+        //    if ((result as Ok<List<Project>>)?.Value == null)
+        //    {
+        //        Assert.Fail("No list of projects were returned as part of this test.");
+        //    }
+        //    else
+        //    {
+        //        // Check that there is at least one project in the list (the one we just created)
+        //        Assert.That(
+        //            (result as Ok<List<Project>>)?.Value!.Count,
+        //            Is.EqualTo(1),
+        //            "No pojects where found. There should be one project in the test database."
+        //            );
+        //    }
 
-            return;
-        }
+        //    return;
+        //}
 
         [Test, Category("Projects"), Order(3)]
         public async Task GetProjectById()

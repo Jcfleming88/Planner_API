@@ -23,6 +23,7 @@ namespace APITests
 
             Assert.That(result, Is.InstanceOf<Created<TaskAssigneeDTO>>());
             var created = (result as Created<TaskAssigneeDTO>)!;
+
             Assert.That(created.Value.TaskId, Is.EqualTo(task.Id));
             Assert.That(created.Value.UserId, Is.EqualTo(user.Id.ToString()));
         }

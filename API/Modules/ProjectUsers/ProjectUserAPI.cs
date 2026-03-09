@@ -13,7 +13,7 @@ namespace API
             return TypedResults.Ok(projectUsers);
         }
 
-        public static async Task<IResult> CreateProjectUser(PlannerDb db, ProjectUser user)
+        public static async Task<IResult> CreateProjectUser(ProjectUser user, PlannerDb db)
         {
             db.ProjectUser.Add(user);
             await db.SaveChangesAsync();

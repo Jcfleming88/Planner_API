@@ -16,13 +16,18 @@ namespace API
         /// <summary>
         /// Retrieves all projects from the database.
         /// </summary>
+        /// <param name="userId">The identifier of the user whose projects are being retrieved.</param>
         /// <param name="db">The <see cref="PlannerDb"/> database context used to query projects.</param>
         /// <returns>
         /// An <see cref="IResult"/> containing an HTTP 200 (OK) response with the list of <see cref="Project"/> entities.
         /// </returns>
-        public static async Task<IResult> GetAllProjects(PlannerDb db)
+        public static async Task<IResult> GetAllProjects(string userId, PlannerDb db)
         {
-            return TypedResults.Ok(await db.Project.ToListAsync() ?? new List<Project>());
+            // Return a list of projects that the user is associated with
+            return TypedResults.Ok(await db.Project
+                .AsNoTracking ()
+                .Where(p => p.ProjectUsers.Any(pu => pu.UserId == userId))
+                .ToListAsync());
         }
 
         /// <summary>

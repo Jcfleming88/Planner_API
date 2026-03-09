@@ -16,14 +16,24 @@ namespace API
         /// <summary>
         /// Retrieves all planner tasks from the database.
         /// </summary>
+        /// <param name="userId">The identifier of the user whose tasks are being retrieved.</param>
         /// <param name="db">The database context used to access planner tasks (injected).</param>
         /// <returns>
         /// An <see cref="IResult"/> containing HTTP 200 (OK) with a collection of all planner tasks.
         /// </returns>
         /// <response code="200">Returns all planner tasks.</response>
-        public static async Task<IResult> GetAllTasks(PlannerDb db) 
+        public static async Task<IResult> GetAllTasks(string userId, PlannerDb db) 
         {
-            return TypedResults.Ok(await db.PlannerTask.ToListAsync());
+
+            // If no project IDs are provided, return all tasks the user has access to
+            var accessibleProjectIds = await db.ProjectUser
+                .Where(pu => pu.UserId == userId)
+                .Select(pu => pu.ProjectId)
+                .ToListAsync();
+
+            return TypedResults.Ok(await db.PlannerTask
+                .Where(t => accessibleProjectIds.Contains(t.ProjectId))
+                .ToListAsync());
         }
 
         /// <summary>
@@ -63,7 +73,7 @@ namespace API
         /// <summary>
         /// Creates a new planner task from the provided DTO and persists it to the database.
         /// </summary>
-        /// <param name="plannerTaskDTO">The DTO containing data for the new planner task.</param>
+        /// <param name="plannerTask">The DTO containing data for the new planner task.</param>
         /// <param name="db">The database context used to add and save the new task (injected).</param>
         /// <returns>
         /// An <see cref="IResult"/> that is HTTP 201 (Created) with the created <c>PlannerTaskDTO</c>

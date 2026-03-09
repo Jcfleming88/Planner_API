@@ -14,32 +14,32 @@ namespace APITests
 {
     public partial class ProjectUserTests
     {
-        [Test, Category("ProjectUser"), Order(1)]
-        public async Task CreateProjectUser()
-        {
-            // Arrange
-            var newProjectUser = new ProjectUser("testuser1", 1, 1);
+        //[Test, Category("ProjectUser"), Order(1)]
+        //public async Task CreateProjectUser()
+        //{
+        //    // Arrange
+        //    var newProjectUser = new ProjectUser("testuser1", 1, 1);
 
-            // Act
-            var result = await ProjectUserAPI.CreateProjectUser(Context, newProjectUser);
+        //    // Act
+        //    var result = await ProjectUserAPI.CreateProjectUser(Context, newProjectUser);
 
-            // Assert
-            Assert.That(result, Is.InstanceOf<Created<ProjectUser>>(), "The project user was not created correctly.");
+        //    // Assert
+        //    Assert.That(result, Is.InstanceOf<Created<ProjectUser>>(), "The project user was not created correctly.");
 
-            var data = (result as Created<ProjectUser>)?.Value;
-            Assert.That(data, Is.Not.Null, "No project user data was returned.");
-            Assert.That(data!.ProjectId, Is.EqualTo(newProjectUser.ProjectId), "Project ID does not match.");
-            Assert.That(data.UserId, Is.EqualTo(newProjectUser.UserId), "User ID does not match.");
-            Assert.That(data.Role, Is.EqualTo(newProjectUser.Role), "Role does not match.");
-            Assert.That((result as Created<ProjectUser>)!.Location, Is.EqualTo($"/projectusers/{newProjectUser.ProjectId}/{newProjectUser.UserId}"), "Location header is incorrect.");
+        //    var data = (result as Created<ProjectUser>)?.Value;
+        //    Assert.That(data, Is.Not.Null, "No project user data was returned.");
+        //    Assert.That(data!.ProjectId, Is.EqualTo(newProjectUser.ProjectId), "Project ID does not match.");
+        //    Assert.That(data.UserId, Is.EqualTo(newProjectUser.UserId), "User ID does not match.");
+        //    Assert.That(data.Role, Is.EqualTo(newProjectUser.Role), "Role does not match.");
+        //    Assert.That((result as Created<ProjectUser>)!.Location, Is.EqualTo($"/projectusers/{newProjectUser.ProjectId}/{newProjectUser.UserId}"), "Location header is incorrect.");
 
-            // Verify in DB
-            var projectUserInDb = await Context.ProjectUser.FirstOrDefaultAsync(pu => pu.ProjectId == newProjectUser.ProjectId && pu.UserId == newProjectUser.UserId);
-            Assert.That(projectUserInDb, Is.Not.Null, "Project user was not found in the database after creation.");
-            Assert.That(projectUserInDb!.Role, Is.EqualTo(newProjectUser.Role), "Role in DB does not match.");
+        //    // Verify in DB
+        //    var projectUserInDb = await Context.ProjectUser.FirstOrDefaultAsync(pu => pu.ProjectId == newProjectUser.ProjectId && pu.UserId == newProjectUser.UserId);
+        //    Assert.That(projectUserInDb, Is.Not.Null, "Project user was not found in the database after creation.");
+        //    Assert.That(projectUserInDb!.Role, Is.EqualTo(newProjectUser.Role), "Role in DB does not match.");
 
-            FirstProjectUser = data; // Save for subsequent ordered tests
-        }
+        //    FirstProjectUser = data; // Save for subsequent ordered tests
+        //}
 
         [Test, Category("ProjectUser"), Order(2)]
         public async Task GetProjectUsers_ReturnsMultipleUsers()

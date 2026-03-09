@@ -20,9 +20,20 @@ namespace API
 
         public static async Task<IResult> CreateUser(User user, PlannerDb db)
         {
-            db.User.Add(user);
-            await db.SaveChangesAsync();
-            return TypedResults.Created($"/users/{user.Id}", user);
+            var userCheck = await db.User.FindAsync(user.Id);
+            if (userCheck is null) 
+            {
+                db.User.Add(user);
+                await db.SaveChangesAsync();
+                return TypedResults.NoContent();
+            } else
+            {
+                userCheck.Name = user.Name;
+                userCheck.Email = user.Email;
+
+                await db.SaveChangesAsync();
+                return TypedResults.Created($"/users/{userCheck.Id}", userCheck);
+            }
         }
 
         public static async Task<IResult> DeleteUser(string id, PlannerDb db)

@@ -21,13 +21,16 @@ builder.Services.AddAuth0ApiAuthentication(options =>
         Audience = builder.Configuration["Auth0:Audience"]
     };
 });
-
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-//{
-//    // The Authority MUST match the "iss" in your JWT exactly
-//    options.Authority = "https://neonwolf.uk.auth0.com/";
-//    options.Audience = builder.Configuration["Auth0:Audience"];
-//});
+builder.Services.AddAuthorization();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4040") // React dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -40,6 +43,7 @@ else
 }
 
 app.UseStaticFiles();
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapOpenApi();

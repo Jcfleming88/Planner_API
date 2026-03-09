@@ -52,10 +52,11 @@
             and returns an <c>IResult</c> representing the appropriate HTTP response.
             </remarks>
         </member>
-        <member name="M:API.PlannerTaskAPI.GetAllTasks(Modules.PlannerDb)">
+        <member name="M:API.PlannerTaskAPI.GetAllTasks(System.String,Modules.PlannerDb)">
             <summary>
             Retrieves all planner tasks from the database.
             </summary>
+            <param name="userId">The identifier of the user whose tasks are being retrieved.</param>
             <param name="db">The database context used to access planner tasks (injected).</param>
             <returns>
             An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> containing HTTP 200 (OK) with a collection of all planner tasks.
@@ -88,7 +89,7 @@
             <summary>
             Creates a new planner task from the provided DTO and persists it to the database.
             </summary>
-            <param name="plannerTaskDTO">The DTO containing data for the new planner task.</param>
+            <param name="plannerTask">The DTO containing data for the new planner task.</param>
             <param name="db">The database context used to add and save the new task (injected).</param>
             <returns>
             An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> that is HTTP 201 (Created) with the created <c>PlannerTaskDTO</c>
@@ -127,10 +128,11 @@
             instance for database access. Methods return <see cref="T:Microsoft.AspNetCore.Http.IResult"/> values representing HTTP responses.
             </remarks>
         </member>
-        <member name="M:API.ProjectAPI.GetAllProjects(Modules.PlannerDb)">
+        <member name="M:API.ProjectAPI.GetAllProjects(System.String,Modules.PlannerDb)">
             <summary>
             Retrieves all projects from the database.
             </summary>
+            <param name="userId">The identifier of the user whose projects are being retrieved.</param>
             <param name="db">The <see cref="T:Modules.PlannerDb"/> database context used to query projects.</param>
             <returns>
             An <see cref="T:Microsoft.AspNetCore.Http.IResult"/> containing an HTTP 200 (OK) response with the list of <see cref="T:Modules.Project"/> entities.

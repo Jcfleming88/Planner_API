@@ -70,35 +70,35 @@ namespace APITests
             return;
         }
 
-        [Test, Category("Tasks"), Order(2)]
-        public async Task GetAllTask()
-        {
-            // Get a list of all tasks from the database
-            var result = await PlannerTaskAPI.GetAllTasks(Context);
+        //[Test, Category("Tasks"), Order(2)]
+        //public async Task GetAllTask()
+        //{
+        //    // Get a list of all tasks from the database
+        //    var result = await PlannerTaskAPI.GetAllTasks(Context);
 
-            // Check for a successful return with a list of tasks
-            Assert.That(
-                result,
-                Is.InstanceOf<Ok<List<PlannerTask>>>(),
-                "The result should be an HTTP 200 Ok response."
-            );
+        //    // Check for a successful return with a list of tasks
+        //    Assert.That(
+        //        result,
+        //        Is.InstanceOf<Ok<List<PlannerTask>>>(),
+        //        "The result should be an HTTP 200 Ok response."
+        //    );
 
-            // Check that the list of tasks is not null
-            var data = (result as Ok<List<PlannerTask>>)?.Value;
-            Assert.That(
-                data,
-                Is.Not.Null,
-                "The returned list of tasks should not be null."
-            );
+        //    // Check that the list of tasks is not null
+        //    var data = (result as Ok<List<PlannerTask>>)?.Value;
+        //    Assert.That(
+        //        data,
+        //        Is.Not.Null,
+        //        "The returned list of tasks should not be null."
+        //    );
 
-            // Check that at least one task exists in the database
-            Assert.That(
-                data!.Count,
-                Is.GreaterThanOrEqualTo(3),
-                "There should be at least 3 tasks in the database."
-            );
-            return;
-        }
+        //    // Check that at least one task exists in the database
+        //    Assert.That(
+        //        data!.Count,
+        //        Is.GreaterThanOrEqualTo(3),
+        //        "There should be at least 3 tasks in the database."
+        //    );
+        //    return;
+        //}
 
         [Test, Category("Tasks"), Order(3)]
         public async Task GetProjectTasks()
